@@ -1,0 +1,4 @@
+---
+bugfixes:
+  - README - Fix incorrect 'vmwawre' (https://github.com/bendwyer/ansible-collection-vmware/pull/3)
+  - galaxy.yml - Fix incorrect 'vmwawre' (https://github.com/bendwyer/ansible-collection-vmware/pull/3)

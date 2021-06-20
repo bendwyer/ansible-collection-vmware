@@ -11,7 +11,7 @@ Ansible roles for setting up and managing VMware in a homelab environment.
 Install via Ansible Galaxy:
 
 ```bash
-ansible-galaxy collection install bendwyer.vmwawre
+ansible-galaxy collection install bendwyer.vmware
 ```
 
 Install via `requirements.yml`:
