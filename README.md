@@ -4,7 +4,7 @@ Ansible roles for setting up and managing VMware in a homelab environment.
 
 ## Roles included in this collection
 
- - [bendwyer.vmwawre.esxi_usb_install](https://github.com/bendwyer/ansible-collection-vmware/blob/main/roles/esxi_usb_install/README.md)
+ - [bendwyer.vmware.esxi_usb_install](https://github.com/bendwyer/ansible-collection-vmware/blob/main/roles/esxi_usb_install/README.md)
 
 ## Installation
 
