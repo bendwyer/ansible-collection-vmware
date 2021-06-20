@@ -5,6 +5,20 @@ Bendwyer.Vmware Release Notes
 .. contents:: Topics
 
 
+v1.0.1
+======
+
+Release Summary
+---------------
+
+Fixed typos in README and galaxy.yml files.
+
+Bugfixes
+--------
+
+- README - Fix incorrect 'vmwawre' (https://github.com/bendwyer/ansible-collection-vmware/pull/3)
+- galaxy.yml - Fix incorrect 'vmwawre' (https://github.com/bendwyer/ansible-collection-vmware/pull/3)
+
 v1.0.0
 ======
 
