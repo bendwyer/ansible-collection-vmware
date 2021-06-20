@@ -1,0 +1,4 @@
+---
+add object.role:
+  - name: esxi_usb_install
+    description: Ansible role to automate the installation of ESXi on usb flash drives.

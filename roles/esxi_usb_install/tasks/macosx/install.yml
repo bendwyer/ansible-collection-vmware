@@ -1,0 +1,117 @@
+---
+
+- name: Reset loop constructed variables
+  ansible.builtin.set_fact:
+    device_id: []
+    mount_point: []
+    disk_data: []
+    updated_batch: []
+
+- name: Scan attached external disks and gather info
+  ansible.builtin.shell: |
+    diskutil list -plist external | plutil -convert json -o - -
+  register: disk_info
+  changed_when: false
+  failed_when: >
+    ((disk_info.stdout | from_json)["WholeDisks"] | length == 0) or
+    ((disk_info.stdout | from_json)["WholeDisks"] | length != batch | length)
+
+- name: Construct variable for WholeDisk value
+  ansible.builtin.set_fact:
+    whole_disk: '{{ (disk_info.stdout | from_json)["WholeDisks"] }}'
+
+- name: Format usb flash drives and unmount to clear mount point value
+  ansible.builtin.shell: |
+    diskutil eraseDisk FAT32 {{ item[0]["usb_name"] | upper }} MBRFormat /dev/{{ item[1] }}
+    diskutil unmountDisk /dev/{{ item[1] }}
+  loop: '{{ batch | zip(whole_disk) | list }}'
+
+- name: Remount usb flash drives
+  ansible.builtin.shell: |
+    diskutil mountDisk /dev/{{ item }}
+  loop: '{{ whole_disk }}'
+
+- name: Rescan attached external disks and gather info
+  ansible.builtin.shell: |
+    diskutil list -plist external | plutil -convert json -o - -
+  register: disk_info
+  changed_when: false
+
+- name: Construct variables
+  ansible.builtin.set_fact:
+    device_id: '{{ device_id | default([]) + [item["Partitions"][0]["DeviceIdentifier"]] }}'
+    mount_point: '{{ mount_point | default([]) + [item["Partitions"][0]["MountPoint"]] }}'
+  loop: '{{ (disk_info.stdout | from_json)["AllDisksAndPartitions"] }}'
+
+- name: Combine all usb flash drive data into large list
+  ansible.builtin.set_fact:
+    disk_data: '{{ disk_data | default([]) + [dict(disk=item[0], device_id=item[1], mount_point=item[2])] }}'
+  loop: '{{ whole_disk | zip(device_id,mount_point) }}'
+
+- name: Merge disk_data with batch information
+  ansible.builtin.set_fact:
+    updated_batch: '{{ updated_batch | default([]) + [item[0] | combine(item[1])] }}'
+  loop: '{{ batch | zip(disk_data) | list }}'
+
+- name: Install ESXi to usb flash drives
+  ansible.builtin.shell: |
+    ./unetbootin rootcheck=no method=diskimage isofile="{{ esxi_iso_path }}" installtype=USB targetdrive="/dev/{{ item["device_id"] }}" nodistro=yes autoinstall=yes
+  args:
+    chdir: '{{ unetbootin_folder }}'
+  loop: '{{ updated_batch }}'
+  become: true
+  async: 7200
+  poll: 0
+  register: unetbootin_task_info
+
+- name: Check on copy task
+  ansible.builtin.async_status:
+    jid: '{{ item["ansible_job_id"] }}'
+  loop: '{{ unetbootin_task_info.results }}'
+  become: true
+  register: job_result
+  until: job_result["finished"]
+  retries: 60
+  delay: 10
+
+- name: Transfer kickstart file to usb flash drives
+  ansible.builtin.template:
+    src: ./templates/KS.CFG.j2
+    dest: '{{ item["mount_point"] }}/KS.CFG'
+    lstrip_blocks: true
+    trim_blocks: false
+  loop: '{{ updated_batch }}'
+
+- name: Update BOOT.CFG to use KS.CFG
+  ansible.builtin.lineinfile:
+    path: '{{ item["mount_point"] }}/BOOT.CFG'
+    search_string: 'kernelopt=cdromBoot runweasel'
+    line: kernelopt=ks=usb:/KS.CFG
+    state: present
+  loop: '{{ updated_batch }}'
+  # 7.0+ uses kernelopt=runweasel cdromBoot
+
+- name: Update EFI BOOT.CFG to use KS.CFG
+  ansible.builtin.lineinfile:
+    path: '{{ item["mount_point"] }}/EFI/BOOT/BOOT.CFG'
+    search_string: 'kernelopt=cdromBoot runweasel'
+    line: kernelopt=ks=usb:/KS.CFG
+    state: present
+  loop: '{{ updated_batch }}'
+  # 7.0+ uses kernelopt=runweasel cdromBoot
+
+- name: Unmount and eject usb flash drives
+  ansible.builtin.shell: |
+    diskutil unmountDisk /dev/{{ item["disk"] }}
+    diskutil eject /dev/{{ item["disk"] }}
+  loop: '{{ updated_batch }}'
+
+- name: Pause so usb flash drives can be changed
+  ansible.builtin.pause:
+    seconds: 120
+  when: not ansible_loop["last"]
+
+- name: Installation complete
+  ansible.builtin.debug:
+    msg: 'Installation complete!'
+  when: ansible_loop["last"] | bool

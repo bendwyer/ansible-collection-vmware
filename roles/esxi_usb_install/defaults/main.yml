@@ -1,0 +1,19 @@
+---
+# defaults file for esxi_usb_install
+
+unetbootin_install: true
+unetbootin_folder: []
+usb_base_name: usb
+usb_to_create: 3
+usb_ports_available: 3
+esxi_base_hostname: esxi
+esxi_ip_address:
+  - 192.168.1.11
+  - 192.168.1.12
+  - 192.168.1.13
+esxi_netmask: 255.255.255.0
+esxi_gateway: 192.168.1.1
+esxi_nameserver: 192.168.1.1
+esxi_root_password: VMware1!
+esxi_serial: []
+esxi_iso_folder: '{{ playbook_dir }}/iso'

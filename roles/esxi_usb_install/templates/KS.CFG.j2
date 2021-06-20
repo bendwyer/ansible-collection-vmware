@@ -1,0 +1,21 @@
+vmaccepteula
+install --firstdisk=usb --overwritevmfs --novmfsondisk
+reboot
+
+network --bootproto=static --ip={{ item["ip"] }} --netmask={{ esxi_netmask }} --gateway={{ esxi_gateway }} --hostname={{ item["hostname"] }} --nameserver={{ esxi_nameserver }} --addvmportgroup=1
+rootpw {{ esxi_root_password }}
+{% if esxi_license_key is defined and esxi_license_key | length > 0 %}
+vmserialnum --esx={{ esxi_license_key }}
+{% endif %}
+%firstboot --interpreter=busybox
+
+# enable & start SSH
+vim-cmd hostsvc/enable_ssh
+vim-cmd hostsvc/start_ssh
+
+# enable & start ESXi Shell
+vim-cmd hostsvc/enable_esx_shell
+vim-cmd hostsvc/start_esx_shell
+
+# Suppress ESXi Shell warning
+esxcli system settings advanced set -o /UserVars/SuppressShellWarning -i 1

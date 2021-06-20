@@ -1,0 +1,56 @@
+---
+
+- name: Check unetbootin_install
+  ansible.builtin.assert:
+    that:
+      - unetbootin_install is defined
+      - (unetbootin_install | bool) or
+        (not unetbootin_install | bool)
+
+- name: Check unetbootin_folder
+  ansible.builtin.assert:
+    that: unetbootin_folder is defined
+
+- name: Check usb_base_name
+  ansible.builtin.assert:
+    that: usb_base_name is defined
+
+- name: Check usb_to_create
+  ansible.builtin.assert:
+    that: usb_to_create | int
+
+- name: Check usb_ports_available
+  ansible.builtin.assert:
+    that: 
+      - usb_ports_available | int
+      - usb_ports_available <= usb_to_create
+
+- name: Check esxi_base_hostname
+  ansible.builtin.assert:
+    that: esxi_base_hostname is defined
+
+- name: Check esxi_ip_address
+  ansible.builtin.assert:
+    that: 
+      - esxi_ip_address is defined
+      - esxi_ip_address | length == usb_to_create
+
+- name: Check esxi_netmask
+  ansible.builtin.assert:
+    that: esxi_netmask is defined
+
+- name: Check esxi_gateway
+  ansible.builtin.assert:
+    that: esxi_gateway is defined
+
+- name: Check esxi_nameserver
+  ansible.builtin.assert:
+    that: esxi_nameserver is defined
+
+- name: Check esxi_root_password
+  ansible.builtin.assert:
+    that: esxi_root_password is defined
+
+- name: Check esxi_iso_folder
+  ansible.builtin.assert:
+    that: esxi_iso_folder is defined         

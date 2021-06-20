@@ -1,0 +1,23 @@
+---
+
+- name: Gather info about ESXi iso
+  ansible.builtin.find:
+    paths: '{{ esxi_iso_folder }}'
+    patterns: 'VMware-VMvisor-Installer-*.iso'
+  register: iso_info
+
+- name: Construct variables
+  ansible.builtin.set_fact:
+    usb_name: '{{ usb_name | default([]) }} + ["{{ usb_base_name }}{{ item }}"]'
+    esxi_hostname: '{{ esxi_hostname | default([]) }} + ["{{ esxi_base_hostname }}{{ item }}"]'
+    esxi_iso_path: '{{ (iso_info.files | sort(attribute="mtime") | last)["path"] }}'
+  loop: '{{ range(1, usb_to_create + 1, 1) }}'
+
+- name: Combine all data into large list
+  ansible.builtin.set_fact:
+    build_list: '{{ build_list | default([]) + [dict(usb_name=item[0], hostname=item[1], ip=item[2])] }}'
+  loop: '{{ usb_name | zip(esxi_hostname,esxi_ip_address) }}'
+
+- name: Create write batches
+  ansible.builtin.set_fact:
+    write_batches: '{{ build_list | batch(usb_ports_available) }}'

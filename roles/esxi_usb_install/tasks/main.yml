@@ -1,0 +1,39 @@
+---
+# tasks file for esxi_usb_install
+
+- name: Validate variables
+  ansible.builtin.include_tasks: '{{ lookup("first_found", params) }}'
+  vars:
+    params:
+      files:
+        - '{{ ansible_facts["distribution"] | lower }}/validate.yml'
+        - '{{ ansible_facts["os_family"] | lower }}/validate.yml'
+
+- name: Construct variables
+  ansible.builtin.include_tasks: '{{ lookup("first_found", params) }}'
+  vars:
+    params:
+      files:
+        - '{{ ansible_facts["distribution"] | lower }}/construct.yml'
+        - '{{ ansible_facts["os_family"] | lower }}/construct.yml'
+
+- name: Install unetbootin
+  ansible.builtin.include_tasks: '{{ lookup("first_found", params) }}'
+  vars:
+    params:
+      files:
+        - '{{ ansible_facts["distribution"] | lower }}/unetbootin.yml'
+        - '{{ ansible_facts["os_family"] | lower }}/unetbootin.yml'
+  when: unetbootin_install | bool
+
+- name: Install ESXi image to usb flash drive(s)
+  ansible.builtin.include_tasks: '{{ lookup("first_found", params) }}'
+  vars:
+    params:
+      files:
+        - '{{ ansible_facts["distribution"] | lower }}/install.yml'
+        - '{{ ansible_facts["os_family"] | lower }}/install.yml'
+  loop: '{{ write_batches }}'
+  loop_control:
+    extended: true
+    loop_var: batch

@@ -1,0 +1,13 @@
+---
+
+- name: Install unetbootin
+  community.general.homebrew_cask:
+    name: unetbootin
+    update_homebrew: true
+    state: latest
+  register: unetbootin
+
+- name: Pause so unetbootin can be manually run for the first time
+  ansible.builtin.pause:
+    seconds: 180
+  when: unetbootin["changed"] | bool
