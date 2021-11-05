@@ -1,0 +1,4 @@
+---
+release_summary: |
+  Added variables for VLAN and domain name.
+  Updated searched-for iso pattern.

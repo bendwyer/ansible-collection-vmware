@@ -5,6 +5,28 @@ Bendwyer.Vmware Release Notes
 .. contents:: Topics
 
 
+v1.0.2
+======
+
+Release Summary
+---------------
+
+Added variables for VLAN and domain name.
+Updated searched-for iso pattern.
+
+Minor Changes
+-------------
+
+- esxi_usb_install - add new vars to defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+- esxi_usb_install - add new vars to evars_macosx.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+- esxi_usb_install - add options for VLAN and domain name to KS.CFG.j2 (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+- esxi_usb_install - update README.md to include new variables (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+
+Bugfixes
+--------
+
+- esxi_usb_install - edit construct.yml iso pattern to be a little more flexible (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+
 v1.0.1
 ======
 
