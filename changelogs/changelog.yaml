@@ -43,3 +43,13 @@ releases:
     - 5-add-vlan-and-domain-options.yml
     - 6-release-1.0.2.yml
     release_date: '2021-11-05'
+  1.0.3:
+    changes:
+      minor_changes:
+      - bendwyer.vmware - add meta/runtime.yml file with minimum required Ansible
+        version (https://github.com/bendwyer/ansible-collection-vmware/pull/7)
+      release_summary: Added meta/runtime.yml.
+    fragments:
+    - 7-add-meta-runtime-file.yml
+    - 8-release-1.0.3.yml
+    release_date: '2021-11-05'
