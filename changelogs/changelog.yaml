@@ -26,3 +26,20 @@ releases:
     - 3-fix-typos.yml
     - 4-release-1.0.1.yml
     release_date: '2021-06-21'
+  1.0.2:
+    changes:
+      bugfixes:
+      - esxi_usb_install - edit construct.yml iso pattern to be a little more flexible
+        (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+      minor_changes:
+      - esxi_usb_install - add new vars to defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+      - esxi_usb_install - add new vars to evars_macosx.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+      - esxi_usb_install - add options for VLAN and domain name to KS.CFG.j2 (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+      - esxi_usb_install - update README.md to include new variables (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
+      release_summary: 'Added variables for VLAN and domain name.
+
+        Updated searched-for iso pattern.'
+    fragments:
+    - 5-add-vlan-and-domain-options.yml
+    - 6-release-1.0.2.yml
+    release_date: '2021-11-05'
