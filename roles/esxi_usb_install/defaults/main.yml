@@ -7,6 +7,8 @@ usb_base_name: usb
 usb_to_create: 3
 usb_ports_available: 3
 esxi_base_hostname: esxi
+esxi_domain_suffix: homelab.internal
+esxi_vlan: []
 esxi_ip_address:
   - 192.168.1.11
   - 192.168.1.12
