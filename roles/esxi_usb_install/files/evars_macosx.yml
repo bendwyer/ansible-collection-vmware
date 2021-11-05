@@ -1,17 +1,16 @@
 ---
+# This file is an example.
 
-unetbootin_install: true
 unetbootin_folder: /Applications/unetbootin.app/Contents/MacOS
-usb_base_name: usb
-usb_to_create: 3
-usb_ports_available: 3
-esxi_base_hostname: esxi
+esxi_base_hostname: server
+esxi_domain_suffix: lab.dev
+esxi_vlan: 275
 esxi_ip_address:
-  - 192.168.1.11
-  - 192.168.1.12
-  - 192.168.1.13
+  - 192.168.50.101
+  - 192.168.50.102
+  - 192.168.50.103
 esxi_netmask: 255.255.255.0
-esxi_gateway: 192.168.1.1
-esxi_nameserver: 192.168.1.1
-esxi_root_password: VMware1!
-esxi_license_key: []
+esxi_gateway: 192.168.50.1
+esxi_nameserver: 192.168.50.1
+esxi_root_password: SecretPassword123!
+esxi_license_key: 123-456-789

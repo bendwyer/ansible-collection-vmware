@@ -3,7 +3,7 @@
 - name: Gather info about ESXi iso
   ansible.builtin.find:
     paths: '{{ esxi_iso_folder }}'
-    patterns: 'VMware-VMvisor-Installer-*.iso'
+    patterns: '*VMware-VMvisor-Installer*.iso'
   register: iso_info
 
 - name: Construct variables
