@@ -23,6 +23,8 @@ Variable | Default Value | Description
 `usb_to_create` | `3` | number of ESXi bootable usb flash drives to create
 `usb_ports_available` | `3` | number of usb ports available on the target machine
 `esxi_base_hostname` | `esxi` | base name to assign ESXi hosts
+`esxi_domain_suffix` | `homelab.internal` | custom domain suffix to assign ESXi hosts
+`esxi_vlan` | `[]` | (optional) vlan to assign the management network
 `esxi_ip_address` | `[192.168.1.11, 192.168.1.12, 192.168.1.13]` | list of ip addresses to assign ESXi hosts
 `esxi_netmask` | `255.255.255.0` | netmask to assign ESXi hosts
 `esxi_gateway` | `192.168.1.1` | gateway to assign ESXi hosts
@@ -50,7 +52,9 @@ Example Playbook
 Additional Information
 ----------------------
 
-Example extra-vars files can be found in `/files`.
+- Example extra-vars files can be found in `/files`. Call an exta-vars file using `--extra-vars "@evars_filename.yml"`.
+
+- More information about the commands used in `KS.CFG` can be found at [Installation and Upgrade Script Commands](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.esxi.upgrade.doc/GUID-61A14EBB-5CF3-43EE-87EF-DB8EC6D83698.html) on the VMware documentation website.
 
 License
 -------
