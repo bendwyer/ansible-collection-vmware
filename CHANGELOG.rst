@@ -1,9 +1,22 @@
 =============================
-Bendwyer.Vmware Release Notes
+bendwyer.vmware Release Notes
 =============================
 
 .. contents:: Topics
 
+
+v1.0.3
+======
+
+Release Summary
+---------------
+
+Added meta/runtime.yml.
+
+Minor Changes
+-------------
+
+- bendwyer.vmware - add meta/runtime.yml file with minimum required Ansible version (https://github.com/bendwyer/ansible-collection-vmware/pull/7)
 
 v1.0.2
 ======
