@@ -1,0 +1,3 @@
+---
+minor_changes:
+  bendwyer.vmware - add meta/runtime.yml file with minimum required Ansible version (https://github.com/bendwyer/ansible-collection-vmware/pull/7)
