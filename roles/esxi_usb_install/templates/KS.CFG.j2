@@ -1,12 +1,22 @@
+# Accept EULA
 vmaccepteula
-install --firstdisk=usb --overwritevmfs --novmfsondisk
-reboot
 
-network --bootproto=static --ip={{ item["ip"] }} --netmask={{ esxi_netmask }} --gateway={{ esxi_gateway }} --hostname={{ item["hostname"] }} --nameserver={{ esxi_nameserver }} --addvmportgroup=1
+# Install on the first local disk
+install --firstdisk=local --overwritevmfs
+
+# Configure the network
+network --bootproto=static --ip={{ item["ip"] }} --netmask={{ esxi_netmask }} --gateway={{ esxi_gateway }} --hostname={{ item["hostname"] }}.{{ esxi_domain_suffix }} --nameserver={{ esxi_nameserver }} {% if esxi_vlan is defined and esxi_vlan | int > 0 %}--vlanid={{ esxi_vlan }}{% endif %} --addvmportgroup=1
+
+# Set the root password
 rootpw {{ esxi_root_password }}
 {% if esxi_license_key is defined and esxi_license_key | length > 0 %}
+# Set the ESXi serial number
 vmserialnum --esx={{ esxi_license_key }}
 {% endif %}
+# Reboot
+reboot
+
+# Use the busybox interpreter
 %firstboot --interpreter=busybox
 
 # enable & start SSH
