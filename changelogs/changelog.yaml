@@ -4,7 +4,7 @@ releases:
     changes:
       minor_changes:
       - LICENSE - Create LICENSE (https://github.com/bendwyer/ansible-collection-vmware/pull/1)
-      release_summary: Initial release.
+      release_summary: 'Release Date: 2021-06-20'
     fragments:
     - 0-initial-commit.yml
     - 1-license.yml
@@ -21,7 +21,7 @@ releases:
       bugfixes:
       - README - Fix incorrect 'vmwawre' (https://github.com/bendwyer/ansible-collection-vmware/pull/3)
       - galaxy.yml - Fix incorrect 'vmwawre' (https://github.com/bendwyer/ansible-collection-vmware/pull/3)
-      release_summary: Fixed typos in README and galaxy.yml files.
+      release_summary: 'Release Date: 2021-06-21'
     fragments:
     - 3-fix-typos.yml
     - 4-release-1.0.1.yml
@@ -36,9 +36,7 @@ releases:
       - esxi_usb_install - add new vars to evars_macosx.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
       - esxi_usb_install - add options for VLAN and domain name to KS.CFG.j2 (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
       - esxi_usb_install - update README.md to include new variables (https://github.com/bendwyer/ansible-collection-vmware/pull/5)
-      release_summary: 'Added variables for VLAN and domain name.
-
-        Updated searched-for iso pattern.'
+      release_summary: 'Release Date: 2021-11-05'
     fragments:
     - 5-add-vlan-and-domain-options.yml
     - 6-release-1.0.2.yml
@@ -48,8 +46,22 @@ releases:
       minor_changes:
       - bendwyer.vmware - add meta/runtime.yml file with minimum required Ansible
         version (https://github.com/bendwyer/ansible-collection-vmware/pull/7)
-      release_summary: Added meta/runtime.yml.
+      release_summary: 'Release Date: 2021-11-05'
     fragments:
     - 7-add-meta-runtime-file.yml
     - 8-release-1.0.3.yml
     release_date: '2021-11-05'
+  1.0.4:
+    changes:
+      bugfixes:
+      - esxi_usb_install - fix esxi_license_key in defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+      minor_changes:
+      - esxi_usb_install - add new vars to defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+      - esxi_usb_install - clean up KS.CFG.j2 templating, add new variables and conditions
+        (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+      - esxi_usb_install - update README.md to include new variables (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+      release_summary: 'Release Date: 2021-11-06'
+    fragments:
+    - 10-release-1.0.4.yml
+    - 9-template-changes.yml
+    release_date: '2021-11-06'
