@@ -5,13 +5,33 @@ bendwyer.vmware Release Notes
 .. contents:: Topics
 
 
+v1.0.4
+======
+
+Release Summary
+---------------
+
+Release Date: 2021-11-06
+
+Minor Changes
+-------------
+
+- esxi_usb_install - add new vars to defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+- esxi_usb_install - clean up KS.CFG.j2 templating, add new variables and conditions (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+- esxi_usb_install - update README.md to include new variables (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+
+Bugfixes
+--------
+
+- esxi_usb_install - fix esxi_license_key in defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+
 v1.0.3
 ======
 
 Release Summary
 ---------------
 
-Added meta/runtime.yml.
+Release Date: 2021-11-05
 
 Minor Changes
 -------------
@@ -24,8 +44,7 @@ v1.0.2
 Release Summary
 ---------------
 
-Added variables for VLAN and domain name.
-Updated searched-for iso pattern.
+Release Date: 2021-11-05
 
 Minor Changes
 -------------
@@ -46,7 +65,7 @@ v1.0.1
 Release Summary
 ---------------
 
-Fixed typos in README and galaxy.yml files.
+Release Date: 2021-06-21
 
 Bugfixes
 --------
@@ -60,7 +79,7 @@ v1.0.0
 Release Summary
 ---------------
 
-Initial release.
+Release Date: 2021-06-20
 
 Minor Changes
 -------------
