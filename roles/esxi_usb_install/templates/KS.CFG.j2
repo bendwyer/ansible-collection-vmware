@@ -1,3 +1,4 @@
+#jinja2: trim_blocks: "true", lstrip_blocks: "true"
 # Accept EULA
 vmaccepteula
 
@@ -9,23 +10,57 @@ network --bootproto=static --ip={{ item["ip"] }} --netmask={{ esxi_netmask }} --
 
 # Set the root password
 rootpw {{ esxi_root_password }}
+
 {% if esxi_license_key is defined and esxi_license_key | length > 0 %}
 # Set the ESXi serial number
 vmserialnum --esx={{ esxi_license_key }}
+
 {% endif %}
 # Reboot
 reboot
 
-# Use the busybox interpreter
+# Firstboot Section 1
 %firstboot --interpreter=busybox
 
-# enable & start SSH
+# Wait
+sleep 30
+
+# Enter Maintenance Mode
+vim-cmd hostsvc/maintenance_mode_enter
+
+{% if esxi_ssh_enable is defined and esxi_ssh_enable | bool == true %}
+# Enable & start SSH
 vim-cmd hostsvc/enable_ssh
 vim-cmd hostsvc/start_ssh
 
-# enable & start ESXi Shell
+{% endif %}
+{% if esxi_shell_enable is defined and esxi_shell_enable | bool == true %}
+# Enable & start ESXi Shell
 vim-cmd hostsvc/enable_esx_shell
 vim-cmd hostsvc/start_esx_shell
 
+{% endif %}
+{% if (esxi_ssh_enable is defined and esxi_ssh_enable | bool == true) or (esxi_shell_enable is defined and esxi_shell_enable | bool == true) %}
 # Suppress ESXi Shell warning
 esxcli system settings advanced set -o /UserVars/SuppressShellWarning -i 1
+
+{% endif %}
+# Firstboot Section 2
+%firstboot --interpreter=busybox
+
+{% if esxi_disable_ipv6 is defined and esxi_disable_ipv6 | bool == true %}
+# Disable IPv6
+esxcli network ip set --ipv6-enabled=false
+
+{% endif %}
+# Persist changes
+/sbin/auto-backup.sh
+
+# Exit Maintenance Mode
+vim-cmd hostsvc/maintenance_mode_exit
+
+# Wait
+sleep 30
+
+#Reboot
+reboot

@@ -1,0 +1,7 @@
+---
+bugfixes:
+  - esxi_usb_install - fix esxi_license_key in defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+minor_changes:
+  - esxi_usb_install - add new vars to defaults/main.yml (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+  - esxi_usb_install - clean up KS.CFG.j2 templating, add new variables and conditions (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
+  - esxi_usb_install - update README.md to include new variables (https://github.com/bendwyer/ansible-collection-vmware/pull/9)
