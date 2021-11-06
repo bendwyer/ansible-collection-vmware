@@ -1,7 +1,10 @@
 Role: ESXi USB Install
 ==================
 
-Ansible role to automate the installation of ESXi on usb flash drives. Inspired by William Lam's article, [Automated ESXi Installation to USB using Kickstart](https://williamlam.com/2019/07/automated-esxi-installation-to-usb-using-kickstart.html)
+Ansible role to automate the installation of ESXi using usb flash drives. Inspired by William Lam's article, [Automated ESXi Installation to USB using Kickstart](https://williamlam.com/2019/07/automated-esxi-installation-to-usb-using-kickstart.html)
+
+- Due to changes in ESXi 7.0U3a, this role **does not** install ESXi to the flash drive. Instead it will install ESXi to the first available local disk.
+- If you are using Secure Boot, then the `%firstboot` sections in `KS.CFG` will not run. More information can be found in [Using ESXi Kickstart %firstboot with Secure Boot](https://williamlam.com/2018/06/using-esxi-kickstart-firstboot-with-secure-boot.html), but the easiest fix is to disable Secure Boot while running the installation.
 
 Requirements
 ------------
@@ -31,6 +34,9 @@ Variable | Default Value | Description
 `esxi_nameserver` | `192.168.1.1` | nameserver (DNS) to assign ESXi hosts
 `esxi_root_password` | `VMware1!` | root password to assign ESXi hosts
 `esxi_license_key` | `[]` | (optional) license key to assign ESXi hosts
+`esxi_ssh_enable` | `true` | enables or disables SSH
+`esxi_shell_enable` | `true` | enables or disables ESXi shell
+`esxi_disable_ipv6` | `true` | disables or enables IPv6
 `esxi_iso_folder` | `'{{ playbook_dir }}/iso'` | path to folder containing ESXi iso; defaults to a folder called 'iso' in the playbook directory that calls this role
 
 Dependencies
